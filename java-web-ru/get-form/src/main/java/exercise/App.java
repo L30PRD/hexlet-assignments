@@ -27,7 +27,7 @@ public final class App {
             List<User> users;
             if (term != null) {
                 users = USERS.stream()
-                        .filter(u -> u.getFirstName().toLowerCase().contains(term.toLowerCase()))
+                        .filter(u -> u.getFirstName().equalsIgnoreCase(term))
                         .collect(Collectors.toList());;
             } else {
                 users = USERS;
