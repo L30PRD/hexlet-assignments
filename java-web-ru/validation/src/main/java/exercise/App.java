@@ -36,25 +36,22 @@ public final class App {
             ctx.render("articles/build.jte", Collections.singletonMap("page", page));
         });
 
-        List<String> list = new ArrayList<>();
-
         app.post("/articles", ctx -> {
-            String title = "";
-            String content = "";
             try {
-                 title = ctx.formParamAsClass("title", String.class)
+                 var title = ctx.formParamAsClass("title", String.class)
                         .check(v -> v.length() >= 2, "Название не должно быть короче двух символов")
-                        .check(list::contains, "Статья с таким названием уже существует")
+                        .check(v -> !ArticleRepository.existsByTitle(v), "Статья с таким названием уже существует")
                         .get();
 
-                 content = ctx.formParamAsClass("content", String.class)
+                 var content = ctx.formParamAsClass("content", String.class)
                         .check(v -> v.length() >= 10, "Статья должна быть не короче 10 символов")
                         .get();
-                list.add(title);
                 var article = new Article(title, content);
                 ArticleRepository.save(article);
                 ctx.redirect("/articles");
             } catch (ValidationException e) {
+                var title = ctx.formParam("title");
+                var content = ctx.formParam("content");
                 var page = new BuildArticlePage(title, content, e.getErrors());
                 ctx.render("articles/build.jte", Collections.singletonMap("page", page));
             }
