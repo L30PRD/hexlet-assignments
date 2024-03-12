@@ -3,7 +3,6 @@ package exercise;
 import io.javalin.Javalin;
 import io.javalin.validation.ValidationException;
 
-import java.util.ArrayList;
 import java.util.List;
 import exercise.model.Article;
 import exercise.dto.articles.ArticlesPage;
@@ -53,7 +52,7 @@ public final class App {
                 var title = ctx.formParam("title");
                 var content = ctx.formParam("content");
                 var page = new BuildArticlePage(title, content, e.getErrors());
-                ctx.render("articles/build.jte", Collections.singletonMap("page", page));
+                ctx.render("articles/build.jte", Collections.singletonMap("page", page)).status(422);
             }
         });
         // END
