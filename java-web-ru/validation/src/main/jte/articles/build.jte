@@ -29,3 +29,4 @@ content = @`
     <input type="submit" value="Опубликовать" />
 </form>
 `
+)
