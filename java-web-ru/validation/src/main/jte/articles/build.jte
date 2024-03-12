@@ -1,6 +1,8 @@
 @import exercise.dto.articles.BuildArticlePage
 @param BuildArticlePage page
 
+@template.layout.page(
+content = @`
 @if(page.getErrors() != null)
     <ul>
         @for(var validator : page.getErrors().values())
@@ -26,3 +28,4 @@
     </div>
     <input type="submit" value="Опубликовать" />
 </form>
+`
