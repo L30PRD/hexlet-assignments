@@ -39,16 +39,18 @@ public final class App {
         List<String> list = new ArrayList<>();
 
         app.post("/articles", ctx -> {
-            var title = ctx.formParamAsClass("title", String.class)
-                    .check(v -> v.length() >= 2, "Название не должно быть короче двух символов")
-                    .check(list::contains, "Статья с таким названием уже существует")
-                    .get();
-            list.add(title);
-            var content = ctx.formParamAsClass("content", String.class)
-                    .check(v -> v.length() >= 10, "Статья должна быть не короче 10 символов")
-                    .get();
-
+            String title = "";
+            String content = "";
             try {
+                 title = ctx.formParamAsClass("title", String.class)
+                        .check(v -> v.length() >= 2, "Название не должно быть короче двух символов")
+                        .check(list::contains, "Статья с таким названием уже существует")
+                        .get();
+
+                 content = ctx.formParamAsClass("content", String.class)
+                        .check(v -> v.length() >= 10, "Статья должна быть не короче 10 символов")
+                        .get();
+                list.add(title);
                 var article = new Article(title, content);
                 ArticleRepository.save(article);
                 ctx.redirect("/articles");
