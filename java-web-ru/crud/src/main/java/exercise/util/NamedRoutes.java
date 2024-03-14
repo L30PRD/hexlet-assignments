@@ -12,7 +12,7 @@ public class NamedRoutes {
     }
 
     public static String showPath() {
-        return "/post/build";
+        return "/posts/{id}";
     }
     // END
 }

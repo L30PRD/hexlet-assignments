@@ -17,9 +17,7 @@ public class PostsController {
     public static void index(Context ctx) {
         var term = ctx.queryParam("page") == null ? "1" : ctx.queryParam("page");
         int num = Integer.parseInt(term);
-        var allPosts = PostRepository.getEntities();
-
-        var posts = allPosts.stream()
+        var posts = PostRepository.getEntities().stream()
                 .sorted(Comparator.comparingLong(Post::getId))
                 .skip(num * 5L)
                 .limit(5)
