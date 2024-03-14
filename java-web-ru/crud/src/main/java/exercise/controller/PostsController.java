@@ -34,7 +34,7 @@ public class PostsController {
         long id = ctx.pathParamAsClass("id", Long.class).get();
 
         Post post = PostRepository.find(id).orElseThrow(NotFoundResponse::new);
-        PostPage page = new PostPage(Optional.ofNullable(post));
+        PostPage page = new PostPage(post);
 
         ctx.render("posts/show.jte", Collections.singletonMap("page", page));
     }

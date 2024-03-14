@@ -10,5 +10,5 @@ import java.util.Optional;
 @AllArgsConstructor
 @Getter
 public class PostPage {
-    private Optional<Post> post;
+    private Post post;
 }
