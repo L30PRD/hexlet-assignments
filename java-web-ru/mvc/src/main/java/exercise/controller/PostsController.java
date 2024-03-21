@@ -69,9 +69,10 @@ public class PostsController {
     }
 
     public static void update(Context ctx) {
-        long id = ctx.formParamAsClass("id", Long.class).get();
-        var post = PostRepository.find(id).orElseThrow(() -> new NotFoundResponse("Post " + id + " not found"));
         try {
+            long id = ctx.formParamAsClass("id", Long.class).get();
+            Post post = PostRepository.find(id)
+                    .orElseThrow(() -> new NotFoundResponse("Post not found"));
             var name = ctx.formParamAsClass("name", String.class)
                     .check(value -> value.length() >= 2, "Название не должно быть короче двух символов")
                     .get();
