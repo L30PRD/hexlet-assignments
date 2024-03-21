@@ -64,7 +64,7 @@ public class PostsController {
     public static void edit(Context ctx) {
         long id = ctx.formParamAsClass("id", Long.class).get();
         var post = PostRepository.find(id).orElseThrow(() -> new NotFoundResponse("Post " + id + " not found"));
-        EditPostPage page = new EditPostPage(post.getId(), post.getName(), post.getBody(), new HashMap<>());
+        EditPostPage page = new EditPostPage(post.getName(), post.getBody(), new HashMap<>());
         ctx.render("posts/edit.jte", Collections.singletonMap("page", page));
     }
 
@@ -87,7 +87,7 @@ public class PostsController {
         } catch (ValidationException e) {
             var name = ctx.formParam("name");
             var body = ctx.formParam("body");
-            var page = new EditPostPage(id, name, body, e.getErrors());
+            var page = new EditPostPage(name, body, e.getErrors());
             ctx.render("posts/edit.jte", Collections.singletonMap("page", page)).status(422);
         }
     }
