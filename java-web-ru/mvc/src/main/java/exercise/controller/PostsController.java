@@ -52,7 +52,7 @@ public class PostsController {
     }
 
     public static void show(Context ctx) {
-        var id = ctx.pathParamAsClass("id", Long.class).get();
+        long id = ctx.pathParamAsClass("id", Long.class).get();
         var post = PostRepository.find(id)
             .orElseThrow(() -> new NotFoundResponse("Post not found"));
 
@@ -70,7 +70,7 @@ public class PostsController {
 
     public static void update(Context ctx) {
         try {
-            long id = ctx.formParamAsClass("id", Long.class).get();
+            long id = ctx.pathParamAsClass("id", Long.class).get();
             Post post = PostRepository.find(id)
                     .orElseThrow(() -> new NotFoundResponse("Post not found"));
             var name = ctx.formParamAsClass("name", String.class)
