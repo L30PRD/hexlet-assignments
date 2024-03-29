@@ -52,7 +52,7 @@ public class PostsController {
     }
 
     public static void show(Context ctx) {
-        long id = ctx.pathParamAsClass("id", Long.class).get();
+        var id = ctx.pathParamAsClass("id", Long.class).get();
         var post = PostRepository.find(id)
             .orElseThrow(() -> new NotFoundResponse("Post not found"));
 
@@ -62,17 +62,19 @@ public class PostsController {
 
     // BEGIN
     public static void edit(Context ctx) {
-        long id = ctx.formParamAsClass("id", Long.class).get();
-        var post = PostRepository.find(id).orElseThrow(() -> new NotFoundResponse("Post " + id + " not found"));
+        var id = ctx.pathParamAsClass("id", Long.class).get();
+        var post = PostRepository.find(id).orElseThrow(() -> new NotFoundResponse("Post not found"));
+
         var page = new EditPostPage(post.getId(), post.getName(), post.getBody(), new HashMap<>());
         ctx.render("posts/edit.jte", Collections.singletonMap("page", page));
     }
 
     public static void update(Context ctx) {
-        long id = ctx.pathParamAsClass("id", Long.class).get();
+        var id = ctx.pathParamAsClass("id", Long.class).get();
+        var post = PostRepository.find(id).orElseThrow(() -> new NotFoundResponse("Post not found"));
+        ;
+
         try {
-            Post post = PostRepository.find(id)
-                    .orElseThrow(() -> new NotFoundResponse("Post not found"));
             var name = ctx.formParamAsClass("name", String.class)
                     .check(value -> value.length() >= 2, "Название не должно быть короче двух символов")
                     .get();
