@@ -12,6 +12,7 @@ import io.javalin.http.Context;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 
 
 public class UsersController {
@@ -38,7 +39,7 @@ public class UsersController {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var token = ctx.cookie("token");
 
-        var optionalUser = UserRepository.find(id);
+        Optional<User> optionalUser = UserRepository.find(id);
 
         if (optionalUser.isEmpty() || token == null || !optionalUser.get().getToken().equals(token)) {
             ctx.redirect(NamedRoutes.buildUserPath());
