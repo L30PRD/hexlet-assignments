@@ -35,7 +35,7 @@ public class UsersController {
     }
 
     public static void show(Context ctx) {
-        var id = ctx.formParamAsClass("id", Long.class).get();
+        var id = ctx.pathParamAsClass("id", Long.class).get();
         var token = ctx.cookie("token");
 
         var optionalUser = UserRepository.find(id);
