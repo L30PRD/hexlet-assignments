@@ -30,7 +30,7 @@ public class UsersController {
 
         var user = new User(firstName, lastName, email, password, token);
         UserRepository.save(user);
-        ctx.cookie("id", token);
+        ctx.cookie("token", token);
         ctx.redirect(NamedRoutes.userPath(user.getId()));
     }
 
