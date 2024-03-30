@@ -40,7 +40,7 @@ public class UsersController {
             ctx.redirect(NamedRoutes.buildUserPath());
         } else {
             var user = optionalUser.get();
-            ctx.render("users/show.jte", Collections.singletonMap("user", user));
+            ctx.render("users/show.jte", Collections.singletonMap("user", user)).status(422);
         }
     }
     // END
