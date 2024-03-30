@@ -24,7 +24,7 @@ public class UsersController {
     public static void create(Context ctx) {
         var firstName = ctx.formParam("firstName");
         var lastName = ctx.formParam("lastName");
-        var email = ctx.formParam("mail");
+        var email = ctx.formParam("email");
         var password = ctx.formParam("password");
         var token = Security.generateToken();
 
