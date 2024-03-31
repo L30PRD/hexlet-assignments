@@ -17,7 +17,7 @@ public class UsersController {
     }
 
     // BEGIN
-    public static void create(Context ctx) {
+    public static void create(Context ctx) throws Exception {
         var firstName = ctx.formParam("firstName");
         var lastName = ctx.formParam("lastName");
         var email = ctx.formParam("email");
@@ -30,7 +30,7 @@ public class UsersController {
         ctx.redirect(NamedRoutes.userPath(user.getId()));
     }
 
-    public static void show(Context ctx) {
+    public static void show(Context ctx) throws Exception {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var token = ctx.cookie("token");
 
@@ -40,7 +40,7 @@ public class UsersController {
             ctx.redirect(NamedRoutes.buildUserPath());
         } else {
             var user = optionalUser.get();
-            ctx.render("users/show.jte", Collections.singletonMap("user", user)).status(422);
+            ctx.render("users/show.jte", Collections.singletonMap("user", user));
         }
     }
     // END
