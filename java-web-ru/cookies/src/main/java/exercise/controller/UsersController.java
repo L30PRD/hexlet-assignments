@@ -36,7 +36,7 @@ public class UsersController {
 
         Optional<User> optionalUser = UserRepository.find(id);
 
-        if (optionalUser.isEmpty() || token == null || !optionalUser.get().getToken().equals(token)) {
+        if (token == null || optionalUser.isEmpty() || !optionalUser.get().getToken().equals(token)) {
             ctx.redirect(NamedRoutes.buildUserPath());
         } else {
             var user = optionalUser.get();
