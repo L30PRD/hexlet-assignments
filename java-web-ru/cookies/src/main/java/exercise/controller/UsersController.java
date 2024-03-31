@@ -36,7 +36,7 @@ public class UsersController {
 
         var user = UserRepository.find(id).orElseThrow(() -> new NotFoundResponse("User not found"));
 
-        if (!user.getToken().equals(token)) {
+        if (token == null || !user.getToken().equals(token)) {
             ctx.redirect(NamedRoutes.buildUserPath());
         } else {
             ctx.render("users/show.jte", Collections.singletonMap("user", user));
