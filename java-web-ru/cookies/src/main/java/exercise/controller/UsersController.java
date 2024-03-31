@@ -5,9 +5,9 @@ import exercise.repository.UserRepository;
 import exercise.util.NamedRoutes;
 import exercise.util.Security;
 import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
 
 import java.util.Collections;
-import java.util.Optional;
 
 
 public class UsersController {
@@ -34,12 +34,11 @@ public class UsersController {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var token = ctx.cookie("token");
 
-        Optional<User> optionalUser = UserRepository.find(id);
+        var user = UserRepository.find(id).orElseThrow(() -> new NotFoundResponse("User not found"));
 
-        if (token == null || optionalUser.isEmpty() || !optionalUser.get().getToken().equals(token)) {
+        if (!user.getToken().equals(token)) {
             ctx.redirect(NamedRoutes.buildUserPath());
         } else {
-            var user = optionalUser.get();
             ctx.render("users/show.jte", Collections.singletonMap("user", user));
         }
     }
