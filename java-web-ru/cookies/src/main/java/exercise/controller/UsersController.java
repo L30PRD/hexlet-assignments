@@ -1,12 +1,11 @@
 package exercise.controller;
 
+import exercise.dto.users.UserPage;
 import exercise.model.User;
 import exercise.repository.UserRepository;
 import exercise.util.NamedRoutes;
 import exercise.util.Security;
 import io.javalin.http.Context;
-import io.javalin.http.NotFoundResponse;
-
 import java.util.Collections;
 
 
@@ -34,12 +33,13 @@ public class UsersController {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var token = ctx.cookie("token");
 
-        var user = UserRepository.find(id).orElseThrow(() -> new NotFoundResponse("User not found"));
+        var optionalUser = UserRepository.find(id);
 
-        if (token == null || !user.getToken().equals(token)) {
+        if (token == null || optionalUser.isEmpty() || !optionalUser.get().getToken().equals(token)) {
             ctx.redirect(NamedRoutes.buildUserPath());
         } else {
-            ctx.render("users/show.jte", Collections.singletonMap("user", user));
+            var page = new UserPage(optionalUser.get());
+            ctx.render("users/show.jte", Collections.singletonMap("page", page));
         }
     }
     // END
