@@ -23,7 +23,7 @@ public class SessionsController {
 
     public static void build (Context ctx) {
         LoginPage page = new LoginPage(null, null);
-        ctx.render(NamedRoutes.buildSessionPath(), Collections.singletonMap("page", page));
+        ctx.render("build.jte", Collections.singletonMap("page", page));
     }
 
     public static void create (Context ctx) {
@@ -33,7 +33,7 @@ public class SessionsController {
         if (!UsersRepository.existsByName(name) ||
                 !UsersRepository.findByName(name).getPassword().equals(encrypt(password))) {
             LoginPage page = new LoginPage(name, "Wrong username or password.");
-            ctx.render(NamedRoutes.buildSessionPath(), Collections.singletonMap("page", page));
+            ctx.render("build.jte", Collections.singletonMap("page", page));
         } else {
             ctx.sessionAttribute("name", name);
             ctx.redirect(NamedRoutes.rootPath());
